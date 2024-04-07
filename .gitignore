@@ -132,3 +132,4 @@ dist
 
 # Custom
 config.json
+package-lock.json

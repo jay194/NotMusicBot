@@ -1,0 +1,27 @@
+{
+  "name": "notmusicbot",
+  "version": "1.0.0",
+  "description": "not a music bot dw discord",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jay194/NotMusicBot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jay194/NotMusicBot/issues"
+  },
+  "homepage": "https://github.com/jay194/NotMusicBot#readme",
+  "dependencies": {
+    "@discord-player/extractor": "^4.4.7",
+    "discord-player": "^6.6.8",
+    "discord.js": "^14.14.1",
+    "ffmpeg-static": "^5.2.0",
+    "mediaplex": "^0.0.9",
+    "play-dl": "^1.9.7"
+  }
+}
