@@ -1,12 +1,11 @@
-const { useQueue, useMainPlayer } = require('discord-player');
 const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
+const { useMainPlayer, useQueue  } = require('discord-player');
 
 module.exports = {
     data: new SlashCommandBuilder()
-		.setName('skip')
-		.setDescription('skip song'),
+		.setName('stop')
+		.setDescription('stop music'),
         async execute(inter) {
-
             //might not check if its in the same channel as bot OOPS
             if(!inter.member.voice.channel) {
                 const NotInVoiceChannelEmbed = new EmbedBuilder()
@@ -18,15 +17,14 @@ module.exports = {
             const player = useMainPlayer()
             const queue = useQueue(inter.guild);
 
+            if (!queue || !queue.isPlaying()) return inter.reply({ content:`NO MUSIC PLAYING HUH???`});
 
+            queue.delete();
 
-            if (!queue || !queue.isPlaying()) return inter.reply({ content:`no music in queue`});
+            const StopEmbed = new EmbedBuilder()
+            .setAuthor({name: `WHO TF CLEARED THE QUEUE?` })
 
-            const success = queue.node.skip();
+            return inter.reply({ embeds: [StopEmbed] });
 
-            const SkipEmbed = new EmbedBuilder()
-            .setAuthor({name: success ? `${queue.currentTrack.title} skipped` : `NOT GOOD CALL IT` })
-
-            return inter.reply({ embeds: [SkipEmbed] });
-        }
-    }
+        },
+};
