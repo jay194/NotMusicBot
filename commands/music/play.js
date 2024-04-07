@@ -21,13 +21,19 @@ module.exports = {
             searchEngine: QueryType.YOUTUBE
         });
 
-        console.log(res.tracks[0])
-        const NoResultsEmbed = new EmbedBuilder()
-            .setAuthor({ name: `no results found`})
+        console.log(res.tracks[0].title)
 
         //NO RESULTS FOUND RIP
         if (!res || !res.tracks.length) {
+            const NoResultsEmbed = new EmbedBuilder()
+            .setAuthor({ name: `no results found`})
             return inter.editReply({ embeds: [NoResultsEmbed] });
+        }
+
+        if(res.tracks[0].playlist) {
+            const PlayListResultEmbed = new EmbedBuilder()
+            .setAuthor({ name: `Cannot support playlist yet`})
+            return inter.editReply({ embeds: [PlayListResultEmbed] });
         }
 
         const queue = await player.nodes.create(inter.guild, {
@@ -48,12 +54,15 @@ module.exports = {
         }
 
             const playEmbed = new EmbedBuilder()
-                .setAuthor({ name: `loading: ${res.tracks[0].title} to queue...`})
+                .setAuthor({ name: `Added to queue: ${res.tracks[0].title}`})
                 
             await inter.reply({ embeds: [playEmbed] });
 
 
-        res.playlist ? queue.addTrack(res.tracks) : queue.addTrack(res.tracks[0]);
+    
+        //support for playlist??? check later otherwise just use queue.addTrack(res.tracks[0])
+        // res.playlist ? queue.addTrack(res.tracks) : queue.addTrack(res.tracks[0]);
+        queue.addTrack(res.tracks[0])
 
         if (!queue.isPlaying()) await queue.node.play();
     }
