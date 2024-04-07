@@ -12,6 +12,13 @@ module.exports = {
                 .setRequired(true)),
     voiceChannel: true,
     async execute(inter) {
+        if(!inter.member.voice.channel) {
+            const NotInVoiceChannelEmbed = new EmbedBuilder()
+            .setAuthor({ name: `Yo cringe lord ur not in a voice channel`})
+
+        return inter.reply({ embeds: [NotInVoiceChannelEmbed] });
+        }
+
         const player = useMainPlayer()
 
         //search Song searchEngine -> set Youtube/spotifiy/etc...
@@ -27,13 +34,13 @@ module.exports = {
         if (!res || !res.tracks.length) {
             const NoResultsEmbed = new EmbedBuilder()
             .setAuthor({ name: `no results found`})
-            return inter.editReply({ embeds: [NoResultsEmbed] });
+            return inter.reply({ embeds: [NoResultsEmbed] });
         }
 
         if(res.tracks[0].playlist) {
             const PlayListResultEmbed = new EmbedBuilder()
             .setAuthor({ name: `Cannot support playlist yet`})
-            return inter.editReply({ embeds: [PlayListResultEmbed] });
+            return inter.reply({ embeds: [PlayListResultEmbed] });
         }
 
         const queue = await player.nodes.create(inter.guild, {
@@ -45,6 +52,7 @@ module.exports = {
                 await queue.connect(inter.member.voice.channel);
             }
         } catch {
+            //bad news here might need to use queue.tracks.clear() instead btw noob
             await player.deleteQueue(inter.guildId);
 
             const NoVoiceEmbed = new EmbedBuilder()
