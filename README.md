@@ -4,6 +4,6 @@ commands in order:
 
 npm install
 
-npm deploy-commands
+npm reg
 
-node index.js
+npm start
