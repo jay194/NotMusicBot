@@ -59,5 +59,10 @@ for (const file of eventFiles) {
 const player = new Player(client);
 player.extractors.loadDefault();
 
+//WEB SOCKET ISSUSE FUCK?????? COULD BE CONNECTION RELATED ISSUE WITH EC2 not a good look
+client.on(Events.ShardError, error => {
+	console.error('FUCK TYLER ITS CRINGE: A websocket connection encountered an error:', error);
+});
+
 // Log in to Discord with your client's token
 client.login(DISCORD_TOKEN);
