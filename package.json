@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node .",
     "reg": "node deploy-commands.js",
+    "delete": "node delete-commands.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
