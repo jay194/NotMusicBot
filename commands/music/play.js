@@ -12,6 +12,7 @@ module.exports = {
                 .setDescription('pick a song retard')
                 .setRequired(true)),
         async execute(inter) {
+            try {
 
             //call validation
             const VoiceChatValidation = await isInVoiceChatValidation(inter);
@@ -73,5 +74,12 @@ module.exports = {
             queue.addTrack(res.tracks[0])
 
             if (!queue.isPlaying()) await queue.node.play();
+        } catch {
+            console.log("Big problem occured but im lazy so logging it instead");
+            const BrokenEmbed = new EmbedBuilder()
+                    .setAuthor({ name: `JAY ITS STILL BROKEN!`})
+
+                return inter.reply({ embeds: [BrokenEmbed] });
+        }
         }
 };
