@@ -29,6 +29,17 @@ module.exports = {
                 searchEngine: QueryType.YOUTUBE
             });
 
+            console.log(res.tracks[0].raw.duration.seconds)
+            if(isNaN(res.tracks[0].raw.duration.seconds)) {
+                const InvalidVideoFound = new EmbedBuilder()
+                .setAuthor({ name: `Invalid Video found. Try again noob`})
+                return inter.reply({ embeds: [InvalidVideoFound] });
+            } else if (res.tracks[0].raw.duration.seconds > 10800) {
+                const VidTooLong = new EmbedBuilder()
+                .setAuthor({ name: `Video longer than 3 hours. nty`})
+                return inter.reply({ embeds: [VidTooLong] });
+            }
+
             console.log(res.tracks[0].title)
 
             //NO RESULTS FOUND RIP

@@ -4,6 +4,7 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const { Player } = require('discord-player');
 const { DISCORD_TOKEN } = require('./config.json');
+const { YoutubeiExtractor } = require('discord-player-youtubei');
 
 // Create a new client instance
 const client = new Client({ 
@@ -57,7 +58,7 @@ for (const file of eventFiles) {
 
 //creating discord player
 const player = new Player(client);
-player.extractors.loadDefault();
+player.extractors.register(YoutubeiExtractor, {})
 
 //WEB SOCKET ISSUSE FUCK?????? COULD BE CONNECTION RELATED ISSUE WITH EC2 not a good look
 client.on(Events.ShardError, error => {
