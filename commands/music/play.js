@@ -23,8 +23,7 @@ module.exports = {
             const player = useMainPlayer()
 
             //search Song searchEngine -> set Youtube/spotifiy/etc...
-            const song = inter.options.getString('song');
-
+            let song = inter.options.getString('song');
             //parsing youtube direct link cuz of new extractor
 
             if(song.includes("youtube.com")) {
