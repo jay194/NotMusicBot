@@ -24,6 +24,12 @@ module.exports = {
 
             //search Song searchEngine -> set Youtube/spotifiy/etc...
             const song = inter.options.getString('song');
+
+            //parsing youtube direct link cuz of new extractor
+
+            if(song.includes("youtube.com")) {
+                song = song.split("v=")[1]
+            }
             const res = await player.search(song, {
                 requestedBy: inter.member,
                 searchEngine: QueryType.YOUTUBE
