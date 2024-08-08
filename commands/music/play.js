@@ -22,30 +22,25 @@ module.exports = {
 
             const player = useMainPlayer()
 
-            //search Song searchEngine -> set Youtube/spotifiy/etc...
             let song = inter.options.getString('song');
-            //parsing youtube direct link cuz of new extractor
 
-            if(song.includes("youtube.com")) {
-                song = song.split("v=")[1]
-            }
             const res = await player.search(song, {
                 requestedBy: inter.member,
                 searchEngine: QueryType.YOUTUBE
             });
 
-            console.log(res.tracks[0].raw.duration.seconds)
-            if(isNaN(res.tracks[0].raw.duration.seconds)) {
-                const InvalidVideoFound = new EmbedBuilder()
-                .setAuthor({ name: `Invalid Video found. Try again noob`})
-                return inter.reply({ embeds: [InvalidVideoFound] });
-            } else if (res.tracks[0].raw.duration.seconds > 10800) {
+            let songToQueue = res.tracks.find(x => !isNaN(x.raw.duration_ms))
+
+            let songTitle = songToQueue.title
+
+            let songSeconds = songToQueue.raw.duration_ms / 1000
+            if (songSeconds > 10800) {
                 const VidTooLong = new EmbedBuilder()
-                .setAuthor({ name: `Video longer than 3 hours. nty`})
+                .setAuthor({ name: `Video (${songTitle}) longer than 3 hours. Please update search or try another video`})
                 return inter.reply({ embeds: [VidTooLong] });
             }
 
-            console.log(res.tracks[0].title)
+            console.log(songToQueue.title)
 
             //NO RESULTS FOUND RIP
             if (!res || !res.tracks.length) {
@@ -54,7 +49,7 @@ module.exports = {
                 return inter.reply({ embeds: [NoResultsEmbed] });
             }
 
-            if(res.tracks[0].playlist) {
+            if(songToQueue.playlist) {
                 const PlayListResultEmbed = new EmbedBuilder()
                 .setAuthor({ name: `Cannot support playlist yet`})
                 return inter.reply({ embeds: [PlayListResultEmbed] });
@@ -87,13 +82,13 @@ module.exports = {
         
             //support for playlist??? check later otherwise just use queue.addTrack(res.tracks[0])
             // res.playlist ? queue.addTrack(res.tracks) : queue.addTrack(res.tracks[0]);
-            queue.addTrack(res.tracks[0])
+            queue.addTrack(songToQueue)
 
             if (!queue.isPlaying()) await queue.node.play();
-        } catch {
-            console.log("Big problem occured but im lazy so logging it instead");
+        } catch (error){
+            console.error("Big problem occured but im lazy so logging it instead", error);
             const BrokenEmbed = new EmbedBuilder()
-                    .setAuthor({ name: `JAY ITS STILL BROKEN!`})
+                    .setAuthor({ name: `Possible gg, try again or let Jay know`})
 
                 return inter.reply({ embeds: [BrokenEmbed] });
         }

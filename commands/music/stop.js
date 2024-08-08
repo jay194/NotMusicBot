@@ -21,7 +21,7 @@ module.exports = {
             queue.delete();
 
             const StopEmbed = new EmbedBuilder()
-            .setAuthor({name: `WHO TF CLEARED THE QUEUE?` })
+            .setAuthor({name: `Stopped and cleared queue` })
 
             return inter.reply({ embeds: [StopEmbed] });
 
