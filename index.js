@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const { Player } = require('discord-player');
-const { DISCORD_TOKEN } = require('./config.json');
+const { DISCORD_TOKEN, YOUTUBE_AUTH_TOKEN } = require('./config.json');
 const { YoutubeiExtractor } = require('discord-player-youtubei');
 
 // Create a new client instance
@@ -56,9 +56,12 @@ for (const file of eventFiles) {
 }
 //end getting all events
 
+const authToken = YOUTUBE_AUTH_TOKEN
 //creating discord player
 const player = new Player(client);
-player.extractors.register(YoutubeiExtractor, {})
+player.extractors.register(YoutubeiExtractor, {
+	authentication: authToken
+})
 
 //WEB SOCKET ISSUSE FUCK?????? COULD BE CONNECTION RELATED ISSUE WITH EC2 not a good look
 client.on(Events.ShardError, error => {
