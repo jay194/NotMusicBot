@@ -60,7 +60,7 @@ const authToken = YOUTUBE_AUTH_TOKEN
 //creating discord player
 const player = new Player(client);
 player.extractors.register(YoutubeiExtractor, {
-	authentication: authToken
+	// authentication: authToken
 })
 
 //WEB SOCKET ISSUSE FUCK?????? COULD BE CONNECTION RELATED ISSUE WITH EC2 not a good look
